@@ -1,0 +1,19 @@
+{
+  "_id": "646873f3c0b7d4d8d7a0c71e",
+  "email": "abcd@gmail.com",
+  "password": "$2a$05$kg.VOm0V1jrfg98g0y7UsewGyFk7i5GLeIiaqnVA/3lT/Uh28jDxy",
+  "role": "Giáo viên",
+  "verified": true,
+  "__v": 0,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Njg3M2YzYzBiN2Q0ZDhkN2EwYzcxZSIsImlhdCI6MTY4NDU3NDk3NX0.A94o6RXSS8AFOuAGRMMNlspY2iFqGqF2LRhCVMmJr3Q"
+}
+
+{
+  "_id": "6465e2da3cd409c269a665de",
+  "email": "abc@gmail.com",
+  "password": "$2a$05$6wIFBsqpRnU37MhwKVlTf.oDfVGbKtEegj9Zuj9pjoTvrqIW7aPQC",
+  "role": "Học sinh",
+  "verified": true,
+  "__v": 0,
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NjVlMmRhM2NkNDA5YzI2OWE2NjVkZSIsImlhdCI6MTY4NDU3NTY5OH0.7SObae9jH2d8on6yiiD4jdCml4DNNpjYH4fsME_IGa4"
+}

@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "aws-amplify": "^5.1.4",
+    "bcryptjs": "^2.4.3",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.6.1",
+    "socketio": "^1.0.0"
+  }
+}
