@@ -50,6 +50,7 @@ dependencies:
   socket_io_client: ^2.0.2
   intl: ^0.18.1
   http: ^0.13.6
+  firebase_core: ^2.13.0
   
 
 

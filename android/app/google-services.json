@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "931531270856",
+    "project_id": "e-connect-bbc5a",
+    "storage_bucket": "e-connect-bbc5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:931531270856:android:467886d3a8015593dd53fd",
+        "android_client_info": {
+          "package_name": "com.example.e_connect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "931531270856-790rjlv0rcev824pfacbfdnt6gqvhmkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDe065RH2ryGcFGlEFXT8vK3SquAU7D5JA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "931531270856-790rjlv0rcev824pfacbfdnt6gqvhmkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -66,4 +66,15 @@ courseRouter.post("/course/create", auth, async(req, res) => {
     } 
 });
 
+courseRouter.get("/course/teacher/get", auth, async (req, res) => {
+    const user = await User.findById(req.user)
+
+    if(!user || (user && user.role != "Giáo viên")) {
+        return res.status(400).json({ msg: "Teacher does not exist!"})
+    }
+
+    const course = await Course.find({ teacher: user.email });
+    res.json(course);
+}) 
+
 module.exports = courseRouter;

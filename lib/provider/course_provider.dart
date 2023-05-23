@@ -13,4 +13,8 @@ class CourseProvider extends ChangeNotifier {
     _courses.add(_course);
     notifyListeners();
   }
+
+  void TeacherGetCourse() {
+    
+  }
 }

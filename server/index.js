@@ -6,7 +6,7 @@ const io = require('socket.io')(http);
 
 const authRouter = require('./routes/auth');
 const courseRouter = require('./routes/course');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 const DB = 'mongodb+srv://dangcpr:s8Uz0ibzs31WnSJr@cluster0.ifpa25l.mongodb.net/?retryWrites=true&w=majority';
 
