@@ -65,11 +65,14 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return MaterialApp(
         //initialStep: AuthenticatorStep.signUp,
-       
+       theme: ThemeData(
+              useMaterial3: true,
+              primaryColor: Colors.pink,
+        ),
             //builder: Authenticator.builder(),
             home: Scaffold(
                 appBar: AppBar(
-                    title: Text("Đăng ký tài khoản"),
+                    title: Text("Đăng ký tài khoản", style: TextStyle(color: Colors.white, fontFamily: "Google Sans", fontWeight: FontWeight.bold)),
                     backgroundColor: Colors.pink,
                     centerTitle: true,
                     leading: InkWell(

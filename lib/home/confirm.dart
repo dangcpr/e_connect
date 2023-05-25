@@ -76,9 +76,7 @@ class _ConfirmState extends State<Confirm> {
 
   @override
   Widget build(BuildContext context) {
-    return Authenticator(
-      //initialStep: AuthenticatorStep.signUp,
-      child: MaterialApp(
+    return MaterialApp(
         //builder: Authenticator.builder(),
         home: Scaffold(
           key: _scaffoldKey,
@@ -194,7 +192,6 @@ class _ConfirmState extends State<Confirm> {
                 )
           )
         )
-      )
-    );
+      );
   }      
 }

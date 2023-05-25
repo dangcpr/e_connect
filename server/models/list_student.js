@@ -16,5 +16,5 @@ const List_StudentSchema = mongoose.Schema({
     },
 })
 
-const List_Student = mongoose("List_Student", List_StudentSchema);
+const List_Student = mongoose.model("List_Student", List_StudentSchema);
 module.exports = List_Student;

@@ -2,6 +2,7 @@
 import 'dart:ffi';
 import 'package:e_connect/provider/user_provider.dart';
 import 'package:e_connect/services/course_service.dart';
+import 'package:e_connect/teacher/teacher.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
@@ -47,7 +48,8 @@ class _AddCourseState extends State<AddCourse> {
                )
              )
         );
-    });
+    }
+    );
 
     String courseid = await _courseService.createCourseTeacher(
         context: context,
@@ -59,6 +61,8 @@ class _AddCourseState extends State<AddCourse> {
     );
     
     Navigator.of(context).pop();
+
+    await CourseSerivce().teacherGetCourse(context: context);
 
     await showDialog(
       context: context, 
@@ -80,6 +84,9 @@ class _AddCourseState extends State<AddCourse> {
     });
 
     Navigator.of(context).pop();
+
+    
+
   }
 
   List<Step> stepList() => [
@@ -426,15 +433,25 @@ class _AddCourseState extends State<AddCourse> {
     //final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Thêm khóa học"),
+        title: const Text("Thêm khóa học", style: TextStyle(color: Colors.white, fontFamily: "Google Sans", fontWeight: FontWeight.bold)),
         centerTitle: true,
         backgroundColor: Colors.pink,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
       ),
       body: Theme(
-        data: ThemeData(primarySwatch: Colors.pink),
-        child: Stepper(
+        data: ThemeData(
+          useMaterial3: true,
+          //primarySwatch: Colors.pink,
+          colorSchemeSeed: Colors.pink,
+          
+          fontFamily: "Google Sans"
+        ),
+      child: Stepper(
           type: StepperType.vertical,
           steps: stepList(),
+          
           currentStep: _activeStepIndex,
           //controlsBuilder: (),
           onStepContinue: () => {
@@ -443,7 +460,9 @@ class _AddCourseState extends State<AddCourse> {
                 _activeStepIndex += 1,
               }
               else {
-                createCourse(),
+                  createCourse(),
+                  CourseSerivce().teacherGetCourse(context: context),
+                
               },
             },
             setState(() {
@@ -461,5 +480,6 @@ class _AddCourseState extends State<AddCourse> {
         )
       )
     );
+    
   }
 }
