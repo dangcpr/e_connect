@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 
 class CourseProvider extends ChangeNotifier {
   List<Course> _courses = [];
-  
+
   List<Course> get courses => _courses;
-  
+
   /*
   void addCourse(String course) {
     Course _course = Course.fromJson(course);

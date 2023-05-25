@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CourseSerivce {
-  Future<String> createCourseTeacher ({
+  Future<String> createCourseTeacher({
     required BuildContext context,
     required String nameCourse,
     required String dateStart,
@@ -23,48 +23,42 @@ class CourseSerivce {
   }) async {
     try {
       Course course = Course(
-        id: '',
-        teacher: '',
-        courseID: '',
-        nameCourse: nameCourse,
-        dateStart: dateStart,
-        dateEnd: dateEnd,
-        pass: pass,
-        limit: limit,
-        registered: 0
-      );
+          id: '',
+          teacher: '',
+          courseID: '',
+          nameCourse: nameCourse,
+          dateStart: dateStart,
+          dateEnd: dateEnd,
+          pass: pass,
+          limit: limit,
+          registered: 0);
 
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
-      http.Response res = await http.post(
-        Uri.parse('$uri/course/create'),
-        body: course.toJson(),
-        headers: <String, String> {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': userProvider.user.token
-        }
-      );
-
-
+      http.Response res = await http.post(Uri.parse('$uri/course/create'),
+          body: course.toJson(),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': userProvider.user.token
+          });
 
       // ignore: use_build_context_synchronously
       httpErrorHandle(
-        res: res, 
-        context: context, 
-        onSuccess: () async {
-        await Fluttertoast.showToast(
-            msg: 'Tạo khóa học thành công',
-            toastLength: Toast.LENGTH_SHORT,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );
-        
-        courseid_create = json.decode(res.body)['courseID'];
-        
-      });
-    } catch(e) {
+          res: res,
+          context: context,
+          onSuccess: () async {
+            await Fluttertoast.showToast(
+              msg: 'Tạo khóa học thành công',
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+
+            courseid_create = json.decode(res.body)['courseID'];
+          });
+    } catch (e) {
       Fluttertoast.showToast(
         msg: e.toString(),
         toastLength: Toast.LENGTH_SHORT,
@@ -77,7 +71,7 @@ class CourseSerivce {
     return courseid_create;
   }
 
-  Future<void> teacherGetCourse ({
+  Future<void> teacherGetCourse({
     required BuildContext context,
   }) async {
     try {
@@ -85,33 +79,32 @@ class CourseSerivce {
 
       final token = prefs.getString('x-auth-token');
 
-      if(token == null) {
+      if (token == null) {
         prefs.setString('x-auth-token', '');
       }
 
-      http.Response res = await http.get(
-        Uri.parse('$uri/course/teacher/get'),
-        headers: <String, String> {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': token!
-        }
-      );
+      http.Response res = await http.get(Uri.parse('$uri/course/teacher/get'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token!
+          });
       // ignore: use_build_context_synchronously
       httpErrorHandle(
-        res: res, 
-        context: context, 
-        onSuccess: () async {
-          Provider.of<CourseProvider>(context, listen: false).teacherSetCourse(res.body);
-          Fluttertoast.showToast(
-            msg: 'Lấy khóa học thành công',
-            toastLength: Toast.LENGTH_SHORT,
-            timeInSecForIosWeb: 1,
-            backgroundColor: Colors.black,
-            textColor: Colors.white,
-            fontSize: 16.0,
-          );    
-      });
-    } catch(e) {
+          res: res,
+          context: context,
+          onSuccess: () async {
+            Provider.of<CourseProvider>(context, listen: false)
+                .teacherSetCourse(res.body);
+            Fluttertoast.showToast(
+              msg: 'Lấy khóa học thành công',
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          });
+    } catch (e) {
       Fluttertoast.showToast(
         msg: e.toString(),
         toastLength: Toast.LENGTH_SHORT,
@@ -119,7 +112,7 @@ class CourseSerivce {
         backgroundColor: Colors.black,
         textColor: Colors.white,
         fontSize: 16.0,
-      );      
+      );
     }
   }
 }
