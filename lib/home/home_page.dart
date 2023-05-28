@@ -22,29 +22,6 @@ class MyHomePageNow extends StatefulWidget {
 }
 
 class _MyHomePageNowState extends State<MyHomePageNow> {
-  @override
-  Future<void> signOutCurrentUser(BuildContext context) async {
-  // final result = await Amplify.Auth.signOut();
-  // if (result is CognitoCompleteSignOut) {
-  //   Fluttertoast.showToast(
-  //   msg: "Đã đăng xuất tất cả user hiện có",
-  //   toastLength: Toast.LENGTH_SHORT,
-  //   timeInSecForIosWeb: 1,
-  //   backgroundColor: Colors.black,
-  //   textColor: Colors.white,
-  //   fontSize: 16.0,
-  //   );
-  // } else if (result is CognitoFailedSignOut) {
-  //   Fluttertoast.showToast(
-  //   msg: "Lỗi đăng xuất",
-  //   toastLength: Toast.LENGTH_SHORT,
-  //   timeInSecForIosWeb: 1,
-  //   backgroundColor: Colors.black,
-  //   textColor: Colors.white,
-  //   fontSize: 16.0,
-  //   );
-  // }
-  }
 
   final AuthService authService = AuthService();
 
@@ -99,6 +76,7 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
                 Tab(text: "Admin")
                 ],
               )),
+            /*
             drawer: Drawer(
               backgroundColor: Colors.white,
               child:
@@ -140,6 +118,7 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
                 onTap: () {},
                 )
               ])),
+              */
             body: const TabBarView(
               children: <Widget>[
               Center(
@@ -151,7 +130,12 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
               ],
             ),
             floatingActionButton: FloatingActionButton.extended(
-              label: const Text("Chưa có tài khoản?"),
+              label: const Text("Chưa có tài khoản?", 
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: "Google Sans",
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold)),
               highlightElevation: 50,
               backgroundColor: Colors.pink,
               onPressed: () {

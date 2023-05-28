@@ -2,14 +2,13 @@ import 'package:e_connect/student/student.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_authenticator/amplify_authenticator.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:e_connect/services/auth_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:pinput/pinput.dart';
 
 class Confirm extends StatefulWidget {
-    const Confirm({Key? key, required this.email, required this.pass}) : super(key: key);
-    final String email, pass;
+    const Confirm({Key? key, required this.email}) : super(key: key);
+    final String email;
 
   @override
   State<Confirm> createState() => _ConfirmState();
@@ -17,18 +16,9 @@ class Confirm extends StatefulWidget {
 
 class _ConfirmState extends State<Confirm> {
 
-  TextEditingController _code = TextEditingController();
-  String? _errorText_code = null;
-  bool code_error = false;
+  TextEditingController _otp = TextEditingController();
+  final focusNode = FocusNode();
 
-  TextEditingController _role = TextEditingController();
-  String? _errorText_role = null;
-  final _roleList = ["Giáo viên", "Học sinh"];
-  String? _selectedVal = "Giáo viên";
-
-  bool _isObscurePass = true;
-  bool _isObscureRePass = true;
-  bool _isObscureConfirm = true;
   //final _formKey = GlobalKey<FormState>();
   final _formKeyConfirm = GlobalKey<FormState>();
    final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -36,52 +26,22 @@ class _ConfirmState extends State<Confirm> {
   @override
   void initState() {
     super.initState();
-    //_configureAmplify();
-  }
-
-  // final _amplifyInstance = Amplify;
-
-  // void _configureAmplify() async {
-  //   try {
-
-  //     await Amplify.addPlugin(AmplifyAuthCognito());
-  //     await Amplify.configure(amplifyconfig);
-  //     safePrint('Successfully configured');
-  //   } on Exception catch (e) {
-  //     safePrint('Error configuring Amplify: $e');
-  //   }
-  // }
-  
-  Future<void> _submitCode(BuildContext context) async {
-    if(_formKeyConfirm.currentState!.validate()) {
-                                
-      final confirmationCode = _code.text;
-      //try {
-
-            
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (BuildContext context) => StudentScreen()));
-       //on AuthException catch (e)  {
-        //if(!mounted) return;
-       // Fluttertoast.showToast(
-       //     msg: e.message,
-       //     toastLength: Toast.LENGTH_SHORT,
-        //    timeInSecForIosWeb: 1,
-        //    backgroundColor: Colors.black,
-        //    textColor: Colors.white,
-        //    fontSize: 16.0,
-        //);
-      //}
-    }
+    AuthService().sendOTP(context: context, email: widget.email);
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         //builder: Authenticator.builder(),
+        theme: ThemeData(
+          useMaterial3: true,
+          primaryColor: Colors.pink,
+        ),
         home: Scaffold(
           key: _scaffoldKey,
           appBar: AppBar(       
-            title: Text("Đăng ký tài khoản"),
+            title: Text("Xác thực tài khoản", 
+              style: TextStyle(fontFamily: "Google Sans", color: Colors.white, fontWeight: FontWeight.bold),),
             backgroundColor: Colors.pink,
             centerTitle: true,
             leading: InkWell(
@@ -105,14 +65,23 @@ class _ConfirmState extends State<Confirm> {
                         
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 7.5),
-                          child: Image.asset('lib/assets/icons/register.png', 
+                          child: Image.asset('assets/icons/register.png', 
                           width: 100, height: 100,)
                         ),
 
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 7.5),
+                          child: Center (
+                            child: Text("Vui lòng kiểm tra hộp thư đến và spam của email " + widget.email + " để nhận mã xác thực", textAlign: TextAlign.center,)
+                          )
+                        ),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: SizedBox(
-                          width: 350,
+                            width: 350,
+                            height: 74,
+                          /*
                             child: TextFormField(
                               controller: _code,
                               obscureText: _isObscureConfirm,
@@ -149,7 +118,7 @@ class _ConfirmState extends State<Confirm> {
                                   ),
                                   borderRadius: BorderRadius.circular(30)
                                 ),
-                                labelText: 'Mã xác nhận',
+                                labelText: 'Mã xác thực',
                                 labelStyle: const TextStyle(
                                   color: Colors.pink,
                                 ),
@@ -163,6 +132,26 @@ class _ConfirmState extends State<Confirm> {
                                 )
                               ),
                             )
+                            */
+                            child: Pinput(
+                              controller: _otp,
+                              focusNode: focusNode,
+                              errorTextStyle: TextStyle(fontFamily: "Google Sans", fontSize: 14, color: const Color.fromARGB(255, 204, 0, 0)),
+                              defaultPinTheme: PinTheme(
+                                textStyle: TextStyle(
+                                  fontSize: 22,
+                                  height: 2.0,
+                                  color: Colors.pink,
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(19),
+                                  border: Border.all(color: Colors.pink),
+                                ),
+                              ),
+                              validator: (value) {
+                                return value != '' ? null : 'Vui lòng nhập mã xác nhận';
+                              },       
+                            )
                           )
                         ),
 
@@ -171,25 +160,43 @@ class _ConfirmState extends State<Confirm> {
                           child: ElevatedButton(
                             
                             onPressed: () {      
-                                _submitCode(context);
+                                if(_formKeyConfirm.currentState!.validate()) {
+                                  AuthService().verifiedEmail(context: context, email: widget.email, otp: _otp.text);
+                                }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.pink, // background (button) color
                               foregroundColor: Colors.white, // foreground (text) color
                               
                             ),
-                            child: const Text("ĐĂNG KÝ TÀI KHOẢN",
+                            child: const Text("XÁC THỰC",
                               style: TextStyle (
                               fontWeight: FontWeight.bold,
                           )),
-                          )
+                      )
+                    ),
+
+                    Padding (
+                      padding: const EdgeInsets.symmetric(vertical: 7.5),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          AuthService().sendOTP(context: context, email: widget.email);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Colors.pink
+                        ),
+                        child: const Text('GỬI LẠI MÃ',
+                          style: TextStyle(fontWeight: FontWeight.bold))
+                      )
                     )
 
+                    
                       
 
-                      ],
-                  ), 
-                )
+                  ],
+                ), 
+              )
           )
         )
       );

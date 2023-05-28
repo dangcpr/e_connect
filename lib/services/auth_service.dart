@@ -55,11 +55,12 @@ class AuthService {
             fontSize: 16.0,
           ),
 
-          // if(!jsonDecode(res.body)["verified"]) {
-          //   Navigator.push(
-          //    context, 
-          //   MaterialPageRoute(builder: (_) => Confirm(email: email, pass: password)))
-          // }
+          if(!jsonDecode(res.body)["verified"]) {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (_) => Confirm(email: email))
+            )
+          }
         });
     } catch(e) {
       Fluttertoast.showToast(
@@ -107,6 +108,13 @@ class AuthService {
           );
 
           if(context.mounted) {
+            if(!jsonDecode(res.body)["verified"]) {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (_) => Confirm(email: email))
+              );
+              return;
+            }
             Provider.of<UserProvider>(context, listen: false).setUser(res.body);
             if(jsonDecode(res.body)['role'] == "Giáo viên") {
               Navigator.pushReplacement(
@@ -169,6 +177,14 @@ class AuthService {
         if(context.mounted) {
           var userProvider = Provider.of<UserProvider>(context, listen: false);
           userProvider.setUser(userRes.body);
+        
+          if(userProvider.user.verified == false || userProvider.user.token == "") {
+            Navigator.push(
+              context, 
+              MaterialPageRoute(builder: (_) => Confirm(email: userProvider.user.email))
+            );
+            return;
+          }
         }
       }
       else {
@@ -203,4 +219,121 @@ class AuthService {
       );
     }
   }
+
+  void sendOTP ({
+    required BuildContext context,
+    required String email,
+  }) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/sendOTPVerified'), 
+        body: jsonEncode({
+          "email": email,
+        }),
+        headers: <String, String> {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      
+      // ignore: use_build_context_synchronously
+    httpErrorHandle(
+        res: res, 
+        context: context, 
+        onSuccess: () async {
+          Fluttertoast.showToast(
+            msg: 'Chúng tôi đã gửi OTP tới email ' + email + '. Vui lòng kiểm tra hộp thư đến và spam.',
+            toastLength: Toast.LENGTH_SHORT,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.black,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+        });
+    } catch(e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
+
+  void verifiedEmail ({
+    required BuildContext context,
+    required String email,
+    required String otp
+  }) async {
+    try {
+      showDialog(
+           context: context,
+           builder: (context) {
+             return Dialog(
+                 child: Padding(
+                     padding: const EdgeInsets.symmetric(vertical: 20),
+                     child: Column(
+                       mainAxisSize: MainAxisSize.min,
+                       children: [
+                         CircularProgressIndicator(
+                             valueColor:
+                                 AlwaysStoppedAnimation<Color>(Colors.pink)),
+                         SizedBox(
+                           height: 15,
+                         ),
+                         Text('Loading...')
+                       ],
+                     )));
+         });
+      http.Response res = await http.post (
+        Uri.parse('$uri/api/verified'),
+        body: jsonEncode({
+          "email": email,
+          "otp": otp
+        }),
+        headers: <String, String> {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      // ignore: use_build_context_synchronously
+      if(!context.mounted) return;
+      Navigator.of(context).pop();
+
+      httpErrorHandle(
+          res: res, 
+          context: context, 
+          onSuccess: () async {
+
+            Fluttertoast.showToast(
+              msg: "Xác thực thành công",
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+            Navigator.pushAndRemoveUntil(
+                context, 
+                MaterialPageRoute(builder: (_) => const MyHomePageNow()),
+                (Route<dynamic> route) => false
+            );
+        }
+      ); 
+
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );     
+      if(!context.mounted) return;
+      Navigator.of(context).pop();    
+    }
+  }
+
 }
