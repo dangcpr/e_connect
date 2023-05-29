@@ -6,7 +6,7 @@ const auth = async (req, res, next) => {
 
 
         if(!token) {
-            return res.staus(401).json({ msg: 'Không thể xác thực, vui lòng đăng xuất và đăng nhập lại'})
+            return res.status(401).json({ msg: 'Không thể xác thực, vui lòng đăng xuất và đăng nhập lại'})
         }
         
         const verified = await jwt.verify(token, "t5K9wFYVDcnLaxQp3qbx4PYt");

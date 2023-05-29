@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:e_connect/constants/error_handling.dart';
 import 'package:e_connect/models/course.dart';
 import 'package:e_connect/provider/course_provider.dart';
@@ -47,7 +46,7 @@ class CourseSerivce {
           res: res,
           context: context,
           onSuccess: () async {
-            await Fluttertoast.showToast(
+            Fluttertoast.showToast(
               msg: 'Tạo khóa học thành công',
               toastLength: Toast.LENGTH_SHORT,
               timeInSecForIosWeb: 1,

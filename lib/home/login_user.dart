@@ -1,13 +1,6 @@
-import 'package:e_connect/home/confirm.dart';
 import 'package:e_connect/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:e_connect/student/student.dart';
-import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import 'package:amplify_authenticator/amplify_authenticator.dart';
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginStudent extends StatefulWidget {
   const LoginStudent ({super.key});
@@ -25,11 +18,9 @@ class LoginStudent extends StatefulWidget {
 class _LoginStudent extends State<LoginStudent> {
   //int _count = 0;
   TextEditingController _email = TextEditingController();
-  String? _errorText_email = null;
   bool email_error = false;
 
   TextEditingController _pass = TextEditingController();
-  String? _errorText_pass = null;
   bool pass_error = false;
 
   bool _isObscure = true;
@@ -66,21 +57,46 @@ class _LoginStudent extends State<LoginStudent> {
       body: Center(
         child: Form(
           key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, //Center of screen
+          child: ListView(
+            //shrinkWrap: true,
+            padding: const EdgeInsets.symmetric(horizontal: 20), //Center of screen
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 7.5),
-                child: SvgPicture.asset(
-                  'assets/icons/student.svg', 
-                  colorFilter: const ColorFilter.mode(Colors.pink, BlendMode.srcIn),
-                  width: 100, height: 100,),
+                padding: const EdgeInsets.symmetric(vertical: 1.5),
+                child: Image.asset(
+                  'assets/covers/login_cover.jpg', 
+                  width: 500),
               ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 7.5),
                 child: SizedBox(
-                width: 350,
+                  width: 350,
+                  child: Text("Welcome Back!",
+                    style: TextStyle(
+                      fontFamily: "Google Sans",
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold
+                    )) 
+                )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 7.5),
+                child: SizedBox(
+                  width: 350,
+                  child: Text("Vui lòng đăng nhập để tiếp tục",
+                    style: TextStyle(
+                      fontFamily: "Google Sans",
+                      fontSize: 16,
+                    )) 
+                )
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 7.5),
+                child: SizedBox(
+                  width: 350,
                   child: TextFormField(
                     controller: _email,
                     validator: (value) {

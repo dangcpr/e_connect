@@ -56,9 +56,10 @@ class AuthService {
           ),
 
           if(!jsonDecode(res.body)["verified"]) {
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
               context, 
-              MaterialPageRoute(builder: (_) => Confirm(email: email))
+              MaterialPageRoute(builder: (_) => Confirm(email: email)),
+              (Route<dynamic> route) => false
             )
           }
         });
@@ -109,9 +110,10 @@ class AuthService {
 
           if(context.mounted) {
             if(!jsonDecode(res.body)["verified"]) {
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context, 
-                MaterialPageRoute(builder: (_) => Confirm(email: email))
+                MaterialPageRoute(builder: (_) => Confirm(email: email)),
+                (Route<dynamic> route) => false
               );
               return;
             }
@@ -179,9 +181,10 @@ class AuthService {
           userProvider.setUser(userRes.body);
         
           if(userProvider.user.verified == false || userProvider.user.token == "") {
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
               context, 
-              MaterialPageRoute(builder: (_) => Confirm(email: userProvider.user.email))
+              MaterialPageRoute(builder: (_) => Confirm(email: userProvider.user.email)),
+              (Route<dynamic> route) => false
             );
             return;
           }
@@ -307,7 +310,7 @@ class AuthService {
           onSuccess: () async {
 
             Fluttertoast.showToast(
-              msg: "Xác thực thành công",
+              msg: "Xác thực thành công. Vui lòng đăng nhập lại.",
               toastLength: Toast.LENGTH_SHORT,
               timeInSecForIosWeb: 1,
               backgroundColor: Colors.black,

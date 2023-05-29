@@ -1,13 +1,6 @@
 import 'package:e_connect/services/auth_service.dart';
-//import 'package:e_connect/models/ModelProvider.dart';
-
-import 'package:e_connect/student/student.dart';
-import 'package:e_connect/home/confirm.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import 'package:fluttertoast/fluttertoast.dart';
 
 class Register extends StatefulWidget {
   const Register({super.key});
@@ -18,31 +11,24 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   TextEditingController _email = TextEditingController();
-  String? _errorText_email = null;
   bool email_error = false;
 
   TextEditingController _pass = TextEditingController();
-  String? _errorText_pass = null;
   bool pass_error = false;
 
   TextEditingController _rePass = TextEditingController();
-  String? _errorText_rePass = null;
   bool rePass_error = false;
 
-  TextEditingController _code = TextEditingController();
-  String? _errorText_code = null;
   bool code_error = false;
 
-  TextEditingController _role = TextEditingController();
-  String? _errorText_role = null;
   final _roleList = ["Giáo viên", "Học sinh"];
   String? _selectedVal = "Giáo viên";
 
   bool _isObscurePass = true;
   bool _isObscureRePass = true;
-  bool _isObscureConfirm = true;
+
   final _formKey = GlobalKey<FormState>();
-  final _formKeyConfirm = GlobalKey<FormState>();
+
   final AuthService _authService = AuthService();
 
   @override
@@ -66,44 +52,41 @@ class _RegisterState extends State<Register> {
         theme: ThemeData(
           useMaterial3: true,
           primaryColor: Colors.pink,
+          shadowColor: Colors.pink
         ),
         //builder: Authenticator.builder(),
         home: Scaffold(
             appBar: AppBar(
                 title: Text("Đăng ký tài khoản",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.pink,
                         fontFamily: "Google Sans",
                         fontWeight: FontWeight.bold)),
-                backgroundColor: Colors.pink,
-                centerTitle: true,
+                backgroundColor: Colors.white,
+                shadowColor: Colors.pink,
+                //centerTitle: true,
                 leading: InkWell(
                   onTap: () {
                     Navigator.pop(context);
                   },
                   child: Icon(
                     Icons.arrow_back_ios,
-                    color: Colors.white,
+                    color: Colors.pink,
                   ),
                 )),
-            body: Center(
-                child: ListView(
-                    //mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  Form(
+            body: Form(
                     key: _formKey,
-                    child: Column(
+                    child: ListView(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       //mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7.5),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
                             child: Image.asset(
-                              'assets/icons/register.png',
-                              width: 100,
-                              height: 100,
-                            )),
+                              'assets/covers/login_cover.jpg', 
+                              width: 500),),
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7.5),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
                             child: SizedBox(
                                 width: 350,
                                 child: DropdownButtonFormField(
@@ -139,7 +122,7 @@ class _RegisterState extends State<Register> {
                                               BorderRadius.circular(30))),
                                 ))),
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7.5),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
                             child: SizedBox(
                                 width: 350,
                                 child: TextFormField(
@@ -188,7 +171,7 @@ class _RegisterState extends State<Register> {
                                       )),
                                 ))),
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7.5),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
                             child: SizedBox(
                                 width: 350,
                                 child: TextFormField(
@@ -244,7 +227,7 @@ class _RegisterState extends State<Register> {
                                           })),
                                 ))),
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 7.5),
+                            padding: const EdgeInsets.symmetric(vertical: 6),
                             child: SizedBox(
                                 width: 350,
                                 child: TextFormField(
@@ -305,7 +288,7 @@ class _RegisterState extends State<Register> {
                                           })),
                                 ))),
                         Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 1.5),
+                            padding: const EdgeInsets.symmetric(vertical: 6.0),
                             child: TextButton(
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
@@ -317,9 +300,8 @@ class _RegisterState extends State<Register> {
                                 }
                               },
                               style: TextButton.styleFrom(
-                                //backgroundColor: Colors.white, // background (button) color
-                                foregroundColor:
-                                    Colors.pink, // foreground (text) color
+                                backgroundColor: Colors.pink, // background (button) color
+                                foregroundColor: Colors.white, // foreground (text) color
                               ),
                               child: const Text("GỬI MÃ XÁC NHẬN",
                                   style: TextStyle(
@@ -329,6 +311,6 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                ]))));
+                ));
   }
 }

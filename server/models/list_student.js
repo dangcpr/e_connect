@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const List_StudentSchema = mongoose.Schema({
-    course: {
+    courseID: {
         required: true,
         type: String,
     },
@@ -14,6 +14,9 @@ const List_StudentSchema = mongoose.Schema({
         type: Date,
         default: mongoose.now
     },
+    score: {
+        type: Number
+    }
 })
 
 const List_Student = mongoose.model("List_Student", List_StudentSchema);

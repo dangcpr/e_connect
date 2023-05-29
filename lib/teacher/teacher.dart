@@ -44,14 +44,15 @@ class _TeacherScreenState extends State<TeacherScreen> {
                     appBar: AppBar(
                         title: Text('Giáo viên',
                             style: TextStyle(
-                                color: Colors.white,
+                                color: Colors.pink,
                                 fontFamily: "Google Sans",
                                 fontWeight: FontWeight.bold)),
-                        centerTitle: true,
+                        //centerTitle: true,
+                        shadowColor: Colors.pink,
                         iconTheme: IconThemeData(
-                          color: Colors.white,
+                          color: Colors.pink,
                         ),
-                        backgroundColor: Colors.pink,
+                        backgroundColor: Colors.white,
                         //iconTheme: Theme.of(context).iconTheme,
                         actions: <Widget>[
                           IconButton(
@@ -101,21 +102,46 @@ class _TeacherScreenState extends State<TeacherScreen> {
                           )
                         ])),
                     body: courses.isEmpty
-                        ? Text('Bạn chưa tạo khóa học nào')
-                        : ListView.builder(
-                            itemBuilder: ((context, index) => Card(
-                                    child: ListTile(
-                                  title: Text(courses[index].nameCourse,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: "Google Sans",
-                                          fontWeight: FontWeight.bold)),
-                                  subtitle: Text(
-                                      'Giáo viên: ${courses[index].teacher}\nMã lớp: ${courses[index].courseID} \nSĩ số: ${courses[index].limit} \nĐã đăng ký: ${courses[index].registered}'),
-                                  onTap: () {},
-                                ))),
-                            //separatorBuilder:
-                            itemCount: courses.length,
-                          )))));
+                        ? Center(child: Text('Bạn chưa tạo khóa học nào'))
+                        : Column(children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 10),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                decoration: BoxDecoration(
+                                  //color: Colors.pinkAccent,
+                                  color: Color.fromARGB(255, 232, 232, 232),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: "Tìm kiếm khóa học",
+                                    border: InputBorder.none,
+                                    suffixIcon: Icon(Icons.search),
+                                  ),
+                                  cursorColor: Colors.pink,
+                                )),
+                            Expanded(
+                                child: ListView.builder(
+                              itemBuilder: ((context, index) => Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 7.5),
+                                  child: Card(
+                                      shadowColor: Colors.pink,
+                                      child: ListTile(
+                                        title: Text(courses[index].nameCourse,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: "Google Sans",
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold)),
+                                        subtitle: Text(
+                                            'Giáo viên: ${courses[index].teacher}\nMã lớp: ${courses[index].courseID} \nSĩ số: ${courses[index].limit} \nĐã đăng ký: ${courses[index].registered}'),
+                                        onTap: () {},
+                                      )))),
+                              //separatorBuilder:
+                              itemCount: courses.length,
+                            ))
+                          ])))));
   }
 }

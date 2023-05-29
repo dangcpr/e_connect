@@ -4,25 +4,18 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth');
 const Course = require('../models/course');
+const List_Student = require('../models/list_student');
 
 const courseRouter = express.Router();
 
 const generateRandomString = () => {
     return Math.floor(Math.random() * Date.now()).toString(36);
 };
-const hello = async () =>  {
-    const acc = await Course.find({});
-    console.log(acc);
-}
-
-hello();
 
 courseRouter.post("/course/create", auth, async(req, res) => {
     try {   
         const { nameCourse, dateStart, dateEnd, pass, limit } = req.body;
-
         const user = await User.findById(req.user);
-
         if(!user || (user && user.role != "Giáo viên")) {
             return res.status(400).json({msg: "Teacher does not exist!"})
         }
@@ -39,7 +32,6 @@ courseRouter.post("/course/create", auth, async(req, res) => {
 
         let [day2, month2, year2] = dateEnd.split('/')
         const dateObjEnd = new Date(+year2, +month2 - 1, +day2, 23, 59, 59,999)
-
         if(dateObjEnd < dateObjStart) {
             return res.status(400).json({ msg: "Ngày kết thúc khóa học phải lớn hơn ngày bắt đầu"});
         }
@@ -58,23 +50,92 @@ courseRouter.post("/course/create", auth, async(req, res) => {
         console.log(course);
         res.json(course);
 
-        // const timeCourse = await Course.findOne({courseID: courseID});
-        // const time = new Date(timeCourse.dateStart);
-        // console.log(time.getDate());
     } catch (e) {
         res.status(500).json({ error: e.message })
     } 
 });
 
 courseRouter.get("/course/teacher/get", auth, async (req, res) => {
-    const user = await User.findById(req.user)
-
+    const user = await User.findById(req.user);
     if(!user || (user && user.role != "Giáo viên")) {
         return res.status(400).json({ msg: "Teacher does not exist!"})
     }
 
     const course = await Course.find({ teacher: user.email });
     res.json(course);
-}) 
+})
+
+courseRouter.post("/course/student/join", auth, async (req, res) => {
+    try {
+        const { courseID, pass } = req.body;
+        const user = await User.findById(req.user);
+        if (!user || (user && user.role != "Học sinh")) {
+            return res.status(400).json({ msg: "Student does not exists"});
+        }
+
+        const course = await Course.findOne( {courseID : courseID});
+        if (!course) {
+            return res.status(400).json({ msg: "Khóa học không tồn tại"});
+        }
+
+        const isMatch = await bcryptjs.compare(pass, course.pass);
+        if (!isMatch) {
+            return res.status(400).json({ msg: "Mật khẩu khóa học không đúng"})
+        }
+
+        const now = new Date()
+        if(now < course.dateStart) {
+            return res.status(400).json( { msg: "Khóa học chưa đến thời gian bắt đầu"})
+        }
+        if(now > course.dateEnd) {
+            return res.status(400).json( { msg: "Khóa học đã kết thúc"})
+        }
+
+        // Nếu số lượng đã đăng ký lớn hơn hoặc bằng sỉ số thì không được phép đăng ký
+        // Nếu limit = 0 tức là lớp học không giới hạn số học sinh
+        if(course.limit != 0 && course.registered >= course.limit) {
+            return res.status(400).json( { msg: "Khóa học đã đủ số lượng học sinh"})
+        }
+
+        const student_course = await List_Student.findOne({ courseID: courseID });
+        if(student_course) {
+            return res.status(400).json({ msg: "Bạn đã tham gia khóa học này"})
+        }
+
+        let list_student = new List_Student({
+            courseID: courseID,
+            student: user.email,
+            dateJoin: new Date(),
+        })
+
+        list_student = await list_student.save();
+
+        await Course.findOneAndUpdate({ courseID: courseID }, { $inc: { registered: 1}})
+        res.json(list_student)
+    } catch (e) {
+        res.status(500).json({ error: e.message })
+    }
+})
+
+courseRouter.get("/course/student/get", auth, async(req, res) => {
+    try {
+        const user = await User.findById(req.user);
+        if (!user || (user && user.role != "Học sinh")) {
+            return res.status(400).json({ msg: "Student does not exists "})
+        }
+
+        const student_course = await List_Student.find({ student: user.email });
+        let student_course_detail = [];
+        for (var i = 0, l = student_course.length; i < l; i++) {
+            let course_detail = await Course.findOne({ courseID: student_course[i].courseID })
+            student_course_detail.push({ student: student_course[i].student, dateJoin: student_course[i].dateJoin, ...course_detail._doc})
+        }
+
+        res.json(student_course_detail)
+        
+    } catch (e) {
+        return res.status(500).json({ error: e.message })
+    }
+})
 
 module.exports = courseRouter;

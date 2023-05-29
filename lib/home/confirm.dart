@@ -1,9 +1,5 @@
-import 'package:e_connect/student/student.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:e_connect/services/auth_service.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pinput/pinput.dart';
 
 class Confirm extends StatefulWidget {
@@ -44,15 +40,6 @@ class _ConfirmState extends State<Confirm> {
               style: TextStyle(fontFamily: "Google Sans", color: Colors.white, fontWeight: FontWeight.bold),),
             backgroundColor: Colors.pink,
             centerTitle: true,
-            leading: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Colors.white,
-              ),
-            )
           ),
           
           

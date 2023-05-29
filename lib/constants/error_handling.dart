@@ -34,7 +34,7 @@ void httpErrorHandle({
       );
       break;
 
-      default:
+    default:
       Fluttertoast.showToast(
         msg: 'Something went wrong',
         toastLength: Toast.LENGTH_SHORT,

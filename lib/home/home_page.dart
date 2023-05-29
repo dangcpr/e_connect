@@ -3,10 +3,7 @@ import 'package:e_connect/provider/user_provider.dart';
 import 'package:e_connect/services/auth_service.dart';
 import 'package:e_connect/teacher/teacher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:e_connect/home/login_admin.dart';
 import 'package:e_connect/home/login_user.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../student/student.dart';
@@ -49,6 +46,7 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
         initialIndex: 0,
             length: 2,
             child: Scaffold(
+              /*
             appBar: AppBar(
               title: Text("Đăng nhập",
                 style: TextStyle(
@@ -76,7 +74,7 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
                 Tab(text: "Admin")
                 ],
               )),
-            /*
+            
             drawer: Drawer(
               backgroundColor: Colors.white,
               child:
@@ -119,15 +117,10 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
                 )
               ])),
               */
-            body: const TabBarView(
-              children: <Widget>[
-              Center(
+            body: SafeArea(
+              child: Center(
                 child: LoginStudent(),
               ),
-              Center(
-                child: LoginTeacher(),
-              )
-              ],
             ),
             floatingActionButton: FloatingActionButton.extended(
               label: const Text("Chưa có tài khoản?", 

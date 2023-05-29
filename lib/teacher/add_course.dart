@@ -1,12 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
-import 'dart:ffi';
-import 'package:e_connect/provider/user_provider.dart';
 import 'package:e_connect/services/course_service.dart';
-import 'package:e_connect/teacher/teacher.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AddCourse extends StatefulWidget {
   const AddCourse({super.key});
@@ -60,7 +56,8 @@ class _AddCourseState extends State<AddCourse> {
         dateStart: _dateStart.text,
         dateEnd: _dateEnd.text,
         limit: int.tryParse(_limit.text)!,
-        pass: _pass.text);
+        pass: _pass.text
+      );
 
     Navigator.of(context).pop();
 
@@ -70,7 +67,7 @@ class _AddCourseState extends State<AddCourse> {
         context: context,
         builder: (context) {
           return AlertDialog(
-              title: Text("Tạo khóa học thành công"),
+              title: Text("Tạo khóa học thành công", style: TextStyle(fontFamily: "Google Sans", fontSize: 20, fontWeight: FontWeight.bold)),
               content: Text("Mã số khóa học: $courseid"),
               actions: <Widget>[
                 TextButton(
@@ -182,7 +179,7 @@ class _AddCourseState extends State<AddCourse> {
                                 setState(() {
                                   _dateStartTime = date!;
                                   _dateStart.text = DateFormat('dd/MM/yyyy')
-                                      .format(_dateStartTime!);
+                                      .format(_dateStartTime);
                                 });
                               });
                             },
@@ -249,7 +246,7 @@ class _AddCourseState extends State<AddCourse> {
                                 setState(() {
                                   _dateEndTime = date!;
                                   _dateEnd.text = DateFormat('dd/MM/yyyy')
-                                      .format(_dateEndTime!);
+                                      .format(_dateEndTime);
                                 });
                               });
                             },
@@ -435,14 +432,16 @@ class _AddCourseState extends State<AddCourse> {
         appBar: AppBar(
           title: const Text("Thêm khóa học",
               style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.pink,
                   fontFamily: "Google Sans",
                   fontWeight: FontWeight.bold)),
-          centerTitle: true,
-          backgroundColor: Colors.pink,
+          //centerTitle: true,
+          shadowColor: Colors.pink,
+          backgroundColor: Colors.white,
           iconTheme: IconThemeData(
-            color: Colors.white,
+            color: Colors.pink,
           ),
+          
         ),
         body: Theme(
             data: ThemeData(
