@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:e_connect/constants/error_handling.dart';
 import 'package:e_connect/models/course.dart';
+import 'package:e_connect/models/list_student.dart';
 import 'package:e_connect/provider/course_provider.dart';
+import 'package:e_connect/provider/list_student_provider.dart';
 import 'package:e_connect/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -94,6 +96,101 @@ class CourseSerivce {
           onSuccess: () async {
             Provider.of<CourseProvider>(context, listen: false)
                 .teacherSetCourse(res.body);
+            Fluttertoast.showToast(
+              msg: 'Lấy khóa học thành công',
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+          });
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+  }
+
+  Future<bool> joinCourseStudent({
+    required BuildContext context,
+    required String courseID,
+    required String pass,
+  }) async {
+    try {
+      
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString('x-auth-token');
+
+      http.Response res = await http.post(Uri.parse('$uri/course/student/join'),
+          body: jsonEncode({
+            "courseID": courseID,
+            "pass": pass,
+          }),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token!
+          });
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          res: res,
+          context: context,
+          onSuccess: () async {
+            Fluttertoast.showToast(
+              msg: 'Tham gia khóa học thành công',
+              toastLength: Toast.LENGTH_SHORT,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.black,
+              textColor: Colors.white,
+              fontSize: 16.0,
+            );
+            res_join_course = true;
+      });
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+      res_join_course = false;
+    }
+    return res_join_course;
+  }
+
+  Future<void> studentGetCourse({
+    required BuildContext context,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      final token = prefs.getString('x-auth-token');
+
+      if (token == null) {
+        prefs.setString('x-auth-token', '');
+      }
+
+      http.Response res = await http.get(Uri.parse('$uri/course/student/get'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token!
+          });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          res: res,
+          context: context,
+          onSuccess: () async {
+            Provider.of<ListStudentProvider>(context, listen: false)
+                .studentSetCourse(res.body);
             Fluttertoast.showToast(
               msg: 'Lấy khóa học thành công',
               toastLength: Toast.LENGTH_SHORT,

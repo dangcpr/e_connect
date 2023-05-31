@@ -1,4 +1,5 @@
 import 'package:e_connect/provider/course_provider.dart';
+import 'package:e_connect/provider/list_student_provider.dart';
 import 'package:e_connect/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:e_connect/home/home_page.dart';
@@ -9,6 +10,7 @@ void main() {
   runApp(MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => UserProvider()),
       ChangeNotifierProvider(create: (context) => CourseProvider()),
+      ChangeNotifierProvider(create: (context) => ListStudentProvider()),
   ], child: const MyHomePageNow()));
 }
 

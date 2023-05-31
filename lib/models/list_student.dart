@@ -9,6 +9,7 @@ class List_Student {
   final String nameCourse;
   final String dateStart;
   final String dateEnd;
+  final String pass;
   final int limit;
   final int registered;
 
@@ -21,6 +22,7 @@ class List_Student {
     required this.nameCourse,
     required this.dateStart,
     required this.dateEnd,
+    required this.pass,
     required this.limit,
     required this.registered,
   });
@@ -34,7 +36,8 @@ class List_Student {
       "teacher": teacher,
       "nameCourse": nameCourse,
       "dateStart": dateStart,
-      "dateEnd": dateEnd,
+      "dateEnd": dateEnd,      
+      "pass": pass,
       "limit": limit,
       "registered": registered,
     };
@@ -50,6 +53,7 @@ class List_Student {
       nameCourse: map['nameCourse'] ?? '',
       dateStart: map['dateStart'] ?? '',
       dateEnd: map['dateEnd'] ?? '',
+      pass: map['pass'] ?? '',
       limit: map['limit'] ?? 0,
       registered: map['registered'] ?? 0
     );

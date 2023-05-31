@@ -84,10 +84,12 @@ class _TeacherScreenState extends State<TeacherScreen> {
                                 height: 29.2),
                             title: Text("Trang chính"),
                             onTap: () {
+                              Navigator.of(context).pop();
+                              /*
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (_) => TeacherScreen()));
+                                      builder: (_) => TeacherScreen()));*/
                             },
                           ),
                           ListTile(

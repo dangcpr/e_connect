@@ -34,7 +34,7 @@ authRouter.post("/api/signup", async (req, res) => {
         const  hasedPassword = await bcryptjs.hash(password, 5);
 
         let user = new User({
-            email, password: hasedPassword, role
+            email: email, password: hasedPassword, method: "Email", role: role
         });
 
         user = await user.save();
@@ -48,7 +48,7 @@ authRouter.post("/api/signin", async (req, res) => { //Luôn luôn phải có d�
     try {
         const {email, password} = req.body;
 
-        var user = await User.findOne({ email: email });
+        var user = await User.findOne({ email: email, method: "Email" });
         if(!user) {
             return res.status(400).json({msg: "User with this email does not exist!"})
         }
