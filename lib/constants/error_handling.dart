@@ -9,7 +9,7 @@ void httpErrorHandle({
   required BuildContext context,
   required VoidCallback onSuccess,
 }) {
-  switch(res.statusCode) {
+  switch (res.statusCode) {
     case 200:
       onSuccess();
       break;
@@ -43,6 +43,5 @@ void httpErrorHandle({
         textColor: Colors.white,
         fontSize: 16.0,
       );
-      
   }
 }

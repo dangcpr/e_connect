@@ -1,7 +1,6 @@
 const express = require('express');
 const User = require("../models/user");
 const bcryptjs = require('bcryptjs');
-const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth');
 const Course = require('../models/course');
 const List_Student = require('../models/list_student');
@@ -26,12 +25,18 @@ courseRouter.post("/course/create", auth, async(req, res) => {
 
         let [day1, month1, year1] = dateStart.split('/')
         const now = new Date();
-        console.log(now)
         
         const dateObjStart = new Date(+year1, +month1 - 1, +day1, 0, 0, 0)
 
         let [day2, month2, year2] = dateEnd.split('/')
         const dateObjEnd = new Date(+year2, +month2 - 1, +day2, 23, 59, 59,999)
+        if(now.getFullYear() != dateObjStart.getFullYear() 
+            || now.getMonth() != dateObjStart.getMonth()  
+            || now.getDate() != dateObjStart.getDate()) {
+                if(dateObjStart < now) {
+                    return res.status(400).json({ msg: "Ngày bắt đầu khóa học không được ở quá khứ"})
+                }
+        }
         if(dateObjEnd < dateObjStart) {
             return res.status(400).json({ msg: "Ngày kết thúc khóa học phải lớn hơn ngày bắt đầu"});
         }
@@ -70,7 +75,7 @@ courseRouter.post("/course/student/join", auth, async (req, res) => {
         const { courseID, pass } = req.body;
         const user = await User.findById(req.user);
         if (!user || (user && user.role != "Học sinh")) {
-            return res.status(400).json({ msg: "Student does not exists"});
+            return res.status(400).json({ msg: "Học sinh không tồn tại"});
         }
 
         const course = await Course.findOne( {courseID : courseID});

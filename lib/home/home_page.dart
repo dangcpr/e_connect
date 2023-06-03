@@ -19,34 +19,33 @@ class MyHomePageNow extends StatefulWidget {
 }
 
 class _MyHomePageNowState extends State<MyHomePageNow> {
-
   final AuthService authService = AuthService();
 
   @override
   void initState() {
-  super.initState();
-  authService.getUserData(context: context);
+    super.initState();
+    authService.getUserData(context: context);
   }
 
   @override
   Widget build(BuildContext context) {
-  final bool isLoggedIn =
-    Provider.of<UserProvider>(context).user.token.isNotEmpty;
-  return isLoggedIn
-    ? (Provider.of<UserProvider>(context).user.role == 'Học sinh'
-      ? const StudentScreen()
-      : const TeacherScreen())
-    : MaterialApp(
-      theme: ThemeData(
-        useMaterial3: true,
-        primaryColor: Colors.pink,
-      ),
-      home: Builder(
-        builder: (context) => DefaultTabController(
-        initialIndex: 0,
-            length: 2,
-            child: Scaffold(
-              /*
+    final bool isLoggedIn =
+        Provider.of<UserProvider>(context).user.token.isNotEmpty;
+    return isLoggedIn
+        ? (Provider.of<UserProvider>(context).user.role == 'Học sinh'
+            ? const StudentScreen()
+            : const TeacherScreen())
+        : MaterialApp(
+            theme: ThemeData(
+              useMaterial3: true,
+              primaryColor: Colors.pink,
+            ),
+            home: Builder(
+                builder: (context) => DefaultTabController(
+                      initialIndex: 0,
+                      length: 2,
+                      child: Scaffold(
+                        /*
             appBar: AppBar(
               title: Text("Đăng nhập",
                 style: TextStyle(
@@ -117,28 +116,28 @@ class _MyHomePageNowState extends State<MyHomePageNow> {
                 )
               ])),
               */
-            body: SafeArea(
-              child: Center(
-                child: LoginStudent(),
-              ),
-            ),
-            floatingActionButton: FloatingActionButton.extended(
-              label: const Text("Chưa có tài khoản?", 
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Google Sans",
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold)),
-              highlightElevation: 50,
-              backgroundColor: Colors.pink,
-              onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const Register()),
-              );
-              },
-            ),
-            ),
-          )));
+                        body: SafeArea(
+                          child: Center(
+                            child: LoginStudent(),
+                          ),
+                        ),
+                        floatingActionButton: FloatingActionButton.extended(
+                          label: const Text("Chưa có tài khoản?",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Google Sans",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold)),
+                          highlightElevation: 50,
+                          backgroundColor: Colors.pink,
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) => const Register()),
+                            );
+                          },
+                        ),
+                      ),
+                    )));
   }
 }

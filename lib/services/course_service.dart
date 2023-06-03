@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:e_connect/constants/error_handling.dart';
 import 'package:e_connect/models/course.dart';
-import 'package:e_connect/models/list_student.dart';
 import 'package:e_connect/provider/course_provider.dart';
 import 'package:e_connect/provider/list_student_provider.dart';
 import 'package:e_connect/provider/user_provider.dart';

@@ -4,6 +4,7 @@ import 'package:e_connect/provider/course_provider.dart';
 import 'package:e_connect/provider/user_provider.dart';
 import 'package:e_connect/services/course_service.dart';
 import 'package:e_connect/teacher/add_course.dart';
+import 'package:e_connect/teacher/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -139,7 +140,11 @@ class _TeacherScreenState extends State<TeacherScreen> {
                                                 fontWeight: FontWeight.bold)),
                                         subtitle: Text(
                                             'Giáo viên: ${courses[index].teacher}\nMã lớp: ${courses[index].courseID} \nSĩ số: ${courses[index].limit} \nĐã đăng ký: ${courses[index].registered}'),
-                                        onTap: () {},
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                            builder: (context) => CourseScreen(course: courses[index])));
+                                        },
                                       )))),
                               //separatorBuilder:
                               itemCount: courses.length,

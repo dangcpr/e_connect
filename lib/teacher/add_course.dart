@@ -56,8 +56,7 @@ class _AddCourseState extends State<AddCourse> {
         dateStart: _dateStart.text,
         dateEnd: _dateEnd.text,
         limit: int.tryParse(_limit.text)!,
-        pass: _pass.text
-      );
+        pass: _pass.text);
 
     Navigator.of(context).pop();
 
@@ -67,7 +66,11 @@ class _AddCourseState extends State<AddCourse> {
         context: context,
         builder: (context) {
           return AlertDialog(
-              title: Text("Tạo khóa học thành công", style: TextStyle(fontFamily: "Google Sans", fontSize: 20, fontWeight: FontWeight.bold)),
+              title: Text("Tạo khóa học thành công",
+                  style: TextStyle(
+                      fontFamily: "Google Sans",
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
               content: Text("Mã số khóa học: $courseid"),
               actions: <Widget>[
                 TextButton(
@@ -171,8 +174,9 @@ class _AddCourseState extends State<AddCourse> {
                                       DatePickerEntryMode.calendarOnly,
                                   builder: (context, child) {
                                     return Theme(
-                                      data:
-                                          ThemeData(primarySwatch: Colors.pink),
+                                      data: ThemeData(
+                                          useMaterial3: true,
+                                          colorSchemeSeed: Colors.pink),
                                       child: child!,
                                     );
                                   }).then((date) {
@@ -238,8 +242,9 @@ class _AddCourseState extends State<AddCourse> {
                                       DatePickerEntryMode.calendarOnly,
                                   builder: (context, child) {
                                     return Theme(
-                                      data:
-                                          ThemeData(primarySwatch: Colors.pink),
+                                      data: ThemeData(
+                                          useMaterial3: true,
+                                          colorSchemeSeed: Colors.pink),
                                       child: child!,
                                     );
                                   }).then((date) {
@@ -441,7 +446,6 @@ class _AddCourseState extends State<AddCourse> {
           iconTheme: IconThemeData(
             color: Colors.pink,
           ),
-          
         ),
         body: Theme(
             data: ThemeData(

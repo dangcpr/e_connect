@@ -37,17 +37,18 @@ class _ConfirmState extends State<Confirm> {
           key: _scaffoldKey,
           appBar: AppBar(       
             title: Text("Xác thực tài khoản", 
-              style: TextStyle(fontFamily: "Google Sans", color: Colors.white, fontWeight: FontWeight.bold),),
-            backgroundColor: Colors.pink,
-            centerTitle: true,
+              style: TextStyle(fontFamily: "Google Sans", color: Colors.pink, fontWeight: FontWeight.bold),),
+            backgroundColor: Colors.white,
+            //centerTitle: true,
           ),
           
           
           body: Center(
             child: Form (
               key: _formKeyConfirm,
-                  child: Column (
+                  child: ListView (
                       //mainAxisAlignment: MainAxisAlignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       children: <Widget>[
                         
                         Padding(

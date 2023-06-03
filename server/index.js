@@ -6,6 +6,7 @@ const io = require('socket.io')(http);
 
 const authRouter = require('./routes/auth');
 const courseRouter = require('./routes/course');
+const homeworkRouter = require('./routes/homework')
 const PORT = process.env.PORT || 3000;
 const app = express();
 const DB = 'mongodb+srv://dangcpr:s8Uz0ibzs31WnSJr@cluster0.ifpa25l.mongodb.net/?retryWrites=true&w=majority';
@@ -18,6 +19,7 @@ const DB = 'mongodb+srv://dangcpr:s8Uz0ibzs31WnSJr@cluster0.ifpa25l.mongodb.net/
 app.use(express.json());
 app.use(authRouter);
 app.use(courseRouter);
+app.use(homeworkRouter);
 
 mongoose.connect(DB).then(() => {
     console.log("Connection Sucessseful");

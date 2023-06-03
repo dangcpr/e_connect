@@ -279,19 +279,7 @@ class _StudentScreenState extends State<StudentScreen> {
                             color: Colors.pinkAccent,
                           ),
                           borderRadius: BorderRadius.circular(30)
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.pinkAccent,
-                          ),
-                          borderRadius: BorderRadius.circular(30)
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.pinkAccent,
-                          ),
-                          borderRadius: BorderRadius.circular(30)
-                        ),
+                        ),                      
                         labelText: 'Mật khẩu khóa học',
                         labelStyle: const TextStyle(
                           color: Colors.pink,
